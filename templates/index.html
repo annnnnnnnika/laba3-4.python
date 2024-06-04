@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Калькулятор объемов</title>
+</head>
+<body>
+    <h1>Калькулятор объемов</h1>
+
+    <form method="POST">
+        <label for="figure">Выберите фигуру:</label>
+        <select name="figure" id="figure">
+            <option value="choose" selected>Выберите фигуру</option>
+            <option value="cube" >Куб</option>
+            <option value="sphere" >Сфера</option>
+            <option value="cone"  >Конус</option>
+            <option value="cylinder" >Цилиндр</option>
+        </select><br><br>
+
+        <label for="accuracy">Точность:</label>
+        <input type="number" name="accuracy" id="accuracy" min="0" value="{{accuracy}}" required><br><br>
+
+        <div id="input-fields">
+            {% if figure == 'cube' %}
+                <label for="side">Сторона куба:</label><br>
+                <input type="number" name="side" id="side" value="{{ side }}" required><br><br>
+            {% elif figure == 'sphere' %}
+                 <label for="radius">Радиус сферы:</label><br>
+                <input type="number" name="radius" id="radius1" value="{{ radius }}" required><br><br>
+            {% elif figure == 'cone' or figure == 'cylinder' %}
+                <label for="radius">Радиус:</label><br>
+                <input type="number" name="radius" id="radius" value="{{ radius }}" required><br><br>
+                <label for="height">Высота:</label><br>
+                <input type="number" name="height" id="height" value="{{ height }}" required><br><br>
+            {% endif %}
+        </div>
+
+        <button type="submit" id="calc-button" style="display:{{ 'block' if show_calc_button else 'none' }}">Рассчитать</button>
+    </form>
+
+    <script>
+        const figureSelect = document.getElementById('figure');
+        const inputFields = document.getElementById('input-fields');
+        const calcButton = document.getElementById("calc-button");
+
+        figureSelect.addEventListener('change', () => {
+         inputFields.innerHTML = '';
+         const figure = figureSelect.value;
+         if (figure === 'choose') {
+            calcButton.style.display = "none";
+            }
+         else if (figure === 'cube') {
+             inputFields.innerHTML += '<label for="side">Сторона куба:</label><br>';
+             inputFields.innerHTML += '<input type="number" name="side" id="side" required><br><br>';
+             calcButton.style.display = "block";
+         }
+         else if (figure === 'sphere') {
+             inputFields.innerHTML += '<label for="radius">Радиус сферы:</label><br>';
+             inputFields.innerHTML += '<input type="number" name="radius" id="radius" required><br><br>';
+             calcButton.style.display = "block";
+         }
+         else if (figure === 'cone' || figure === 'cylinder') {
+             inputFields.innerHTML += '<label for="radius">Радиус основания:</label><br>';
+             inputFields.innerHTML += '<input type="number" name="radius" id="radius" required><br><br>';
+             inputFields.innerHTML += '<label for="height">Высота:</label><br>';
+             inputFields.innerHTML += '<input type="number" name="height" id="height" required><br><br>';
+             calcButton.style.display = "block";
+         }
+    });
+    </script>
+</body>
+</html>
